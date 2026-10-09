@@ -11,19 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:minHeight="64dp"
+            android:layout_height="56dp"
+            android:minHeight="56dp"
             android:background="@color/toolbar_navy"
-            android:elevation="4dp"
             app:navigationIcon="@drawable/ic_back"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="Settings"
-            app:titleTextColor="@android:color/white" />
+            app:titleTextColor="@color/toolbar_content" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -35,15 +35,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingStart="20dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="28dp">
 
             <LinearLayout
                 android:id="@+id/layout_replacement_notice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="10dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/settings_row_background"
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -76,15 +81,20 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp"
+                android:letterSpacing="0.04" />
 
             <LinearLayout
                 android:id="@+id/layout_donate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -115,15 +125,20 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp"
+                android:letterSpacing="0.04" />
 
             <LinearLayout
                 android:id="@+id/layout_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -155,7 +170,9 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp"
+                android:letterSpacing="0.04" />
 
             <!-- Background Service Master Toggle -->
             <LinearLayout
@@ -163,7 +180,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingVertical="12dp">
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/settings_row_background"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="10dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -199,8 +220,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/settings_row_background"
                 android:paddingVertical="12dp"
-                android:paddingStart="16dp">
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -235,9 +259,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="4dp"
                 android:paddingVertical="12dp"
-                android:paddingStart="32dp"
-                android:background="?attr/selectableItemBackground">
+                android:paddingStart="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -262,8 +288,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingVertical="12dp"
-                android:paddingStart="16dp">
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/settings_row_background"
+                android:paddingVertical="10dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -299,8 +328,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingVertical="12dp"
-                android:paddingStart="16dp">
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/settings_row_background"
+                android:paddingVertical="10dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -344,15 +376,20 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp"
+                android:letterSpacing="0.04" />
 
             <LinearLayout
                 android:id="@+id/layout_kill_mode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -375,8 +412,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -398,8 +438,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground"
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background"
                 android:visibility="gone">
 
                 <TextView
@@ -422,7 +465,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingVertical="12dp">
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/settings_row_background"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="10dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -456,7 +503,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingVertical="12dp">
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/settings_row_background"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="10dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -499,15 +550,20 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp"
+                android:letterSpacing="0.04" />
 
             <LinearLayout
                 android:id="@+id/layout_background_restriction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -529,8 +585,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -552,8 +611,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -575,8 +637,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -598,8 +663,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -629,15 +697,20 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp"
+                android:letterSpacing="0.04" />
 
             <LinearLayout
                 android:id="@+id/layout_stats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -659,8 +732,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -682,8 +758,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -714,15 +793,20 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp"
+                android:letterSpacing="0.04" />
 
             <LinearLayout
                 android:id="@+id/layout_help"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -744,8 +828,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -767,8 +854,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:background="?attr/selectableItemBackground">
+                android:layout_marginBottom="4dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingVertical="14dp"
+                android:background="@drawable/settings_row_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -801,4 +891,3 @@
     </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-

@@ -14,11 +14,10 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:minHeight="64dp"
+            android:layout_height="56dp"
+            android:minHeight="56dp"
             android:background="@color/toolbar_navy"
-            android:elevation="4dp"
-            app:titleTextColor="@android:color/white"
+            app:titleTextColor="@color/toolbar_content"
             app:navigationIcon="@drawable/ic_back" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -30,10 +29,11 @@
             android:id="@+id/help_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="20dp"
+            android:paddingBottom="28dp"
             android:textColor="@color/text_primary"
             android:textSize="16sp"
-            android:lineSpacingMultiplier="1.2" />
+            android:lineSpacingMultiplier="1.25" />
     </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

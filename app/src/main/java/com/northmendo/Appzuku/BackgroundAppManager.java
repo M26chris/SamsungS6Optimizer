@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -38,6 +40,9 @@ public class BackgroundAppManager {
     private static final String TAG = "BackgroundAppManager";
     private static final String BACKGROUND_RESTRICTION_OP = "RUN_ANY_IN_BACKGROUND";
     private static final Pattern PACKAGE_NAME_PATTERN = Pattern.compile("[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z0-9_]+)+");
+    private static final Pattern FOREGROUND_ACTIVITY_PATTERN = Pattern.compile(
+            "(?:topResumedActivity|mResumedActivity|mFocusedActivity|ResumedActivity)[^\\r\\n]*?"
+                    + "\\b([A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z0-9_]+)+)/");
     private static final String FORCE_STOP_COMMAND_PREFIX = "am force-stop ";
     private final Context context;
     private final Handler handler;
@@ -115,6 +120,21 @@ public class BackgroundAppManager {
                 return;
             }
 
+            Set<String> privilegedApps = getForegroundProtectedApps(dumpOutput);
+            if (privilegedApps == null) {
+                Log.w(TAG, "Skipping automated cleanup because the foreground app could not be identified");
+                postAutoKillComplete(onComplete);
+                return;
+            }
+
+            if (isMusicPlaying(privilegedApps)) {
+                Log.i(TAG, "Skipping automated cleanup while music playback is active");
+                postAutoKillComplete(onComplete);
+                return;
+            }
+
+            privilegedApps.addAll(getAudioProtectedApps());
+
             String psOutput = shellManager.runShellCommandAndGetFullOutput(
                     "ps -A -o rss,name | grep '\\.' | grep -v '[-:@]' | awk '{print $2}'");
             if (psOutput == null) {
@@ -143,9 +163,11 @@ public class BackgroundAppManager {
             List<String> toKill = runningPackages.stream()
                     .filter(pkg -> {
                         try {
-                            // Common checks: foreground, hidden, protected
+                            ApplicationInfo appInfo = pm.getApplicationInfo(pkg, 0);
+                            // Privileged apps are never included in automated kills.
                             if (hiddenApps.contains(pkg) || ProtectedApps.isProtected(context, pkg)
-                                    || dumpOutput.contains(pkg)) {
+                                    || privilegedApps.contains(pkg) || isGameApp(appInfo)
+                                    || isGameCompanionApp(appInfo) || dumpOutput.contains(pkg)) {
                                 return false;
                             }
 
@@ -155,7 +177,6 @@ public class BackgroundAppManager {
                                 if (whitelistedApps.contains(pkg))
                                     return false;
                                 // In whitelist mode, check persistent flag
-                                ApplicationInfo appInfo = pm.getApplicationInfo(pkg, 0);
                                 return (appInfo.flags & ApplicationInfo.FLAG_PERSISTENT) == 0;
                             }
                         } catch (PackageManager.NameNotFoundException e) {
@@ -174,9 +195,8 @@ public class BackgroundAppManager {
                 String killCommand = toKill.stream()
                         .map(pkg -> "am force-stop " + pkg)
                         .collect(Collectors.joining("; "));
-                String finalCommand = killCommand + "; am kill-all";
 
-                shellManager.runShellCommandAndGetFullOutput(finalCommand);
+                shellManager.runShellCommandAndGetFullOutput(killCommand);
 
                 sendKillNotification(toKill.size());
 
@@ -195,6 +215,111 @@ public class BackgroundAppManager {
             if (onComplete != null)
                 handler.post(onComplete);
         });
+    }
+
+    private boolean isMusicPlaying(Set<String> foregroundApps) {
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager == null || !audioManager.isMusicActive()) {
+            return false;
+        }
+
+        if (!foregroundApps.isEmpty()) {
+            Set<String> protectedAudioApps = getAudioProtectedApps();
+            protectedAudioApps.addAll(foregroundApps);
+            protectedAudioApps.remove(context.getPackageName());
+            sharedpreferences.edit().putStringSet(KEY_AUDIO_PROTECTED_APPS, protectedAudioApps).apply();
+        }
+        return true;
+    }
+
+    private void postAutoKillComplete(Runnable onComplete) {
+        if (onComplete != null) {
+            handler.post(onComplete);
+        }
+    }
+
+    private Set<String> getForegroundProtectedApps(String activityDump) {
+        String foregroundPackage = getForegroundPackage(activityDump);
+        if (foregroundPackage == null) {
+            return null;
+        }
+
+        String lastForegroundPackage = sharedpreferences.getString(KEY_LAST_FOREGROUND_APP, null);
+        String previousForegroundPackage = sharedpreferences.getString(KEY_PREVIOUS_FOREGROUND_APP, null);
+        if (isUserApp(foregroundPackage) && !foregroundPackage.equals(lastForegroundPackage)) {
+            previousForegroundPackage = lastForegroundPackage;
+            SharedPreferences.Editor editor = sharedpreferences.edit()
+                    .putString(KEY_LAST_FOREGROUND_APP, foregroundPackage);
+            if (previousForegroundPackage != null) {
+                editor.putString(KEY_PREVIOUS_FOREGROUND_APP, previousForegroundPackage);
+            }
+            editor.apply();
+            lastForegroundPackage = foregroundPackage;
+        }
+
+        Set<String> protectedPackages = new HashSet<>();
+        protectedPackages.add(foregroundPackage);
+        if (lastForegroundPackage != null) {
+            protectedPackages.add(lastForegroundPackage);
+        }
+        if (previousForegroundPackage != null) {
+            protectedPackages.add(previousForegroundPackage);
+        }
+        return protectedPackages;
+    }
+
+    private String getForegroundPackage(String activityDump) {
+        Matcher matcher = FOREGROUND_ACTIVITY_PATTERN.matcher(activityDump);
+        return matcher.find() ? matcher.group(1) : null;
+    }
+
+    private Set<String> getAudioProtectedApps() {
+        return new HashSet<>(sharedpreferences.getStringSet(KEY_AUDIO_PROTECTED_APPS, new HashSet<>()));
+    }
+
+    private void removeAudioProtection(Set<String> packageNames) {
+        Set<String> protectedApps = getAudioProtectedApps();
+        protectedApps.removeAll(packageNames);
+        sharedpreferences.edit().putStringSet(KEY_AUDIO_PROTECTED_APPS, protectedApps).apply();
+    }
+
+    public static void clearAudioProtection(Context context, Set<String> packageNames) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        Set<String> protectedApps = new HashSet<>(
+                preferences.getStringSet(KEY_AUDIO_PROTECTED_APPS, new HashSet<>()));
+        protectedApps.removeAll(packageNames);
+        preferences.edit().putStringSet(KEY_AUDIO_PROTECTED_APPS, protectedApps).apply();
+    }
+
+    private boolean isUserApp(String packageName) {
+        try {
+            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
+            return (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0
+                    && !packageName.equals(context.getPackageName());
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    private boolean isGameApp(ApplicationInfo appInfo) {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                && appInfo.category == ApplicationInfo.CATEGORY_GAME;
+    }
+
+    private boolean isGameCompanionApp(ApplicationInfo appInfo) {
+        String packageName = appInfo.packageName.toLowerCase(Locale.ROOT);
+        if (packageName.equals("com.samsung.android.game.gos")
+                || packageName.equals("com.samsung.android.game.gamehome")
+                || packageName.equals("com.samsung.android.game.gametools")
+                || packageName.equals("com.oplus.games")) {
+            return true;
+        }
+
+        String label = context.getPackageManager().getApplicationLabel(appInfo)
+                .toString().toLowerCase(Locale.ROOT);
+        return label.contains("game")
+                && (label.contains("booster") || label.contains("tool")
+                        || label.contains("launcher") || label.contains("game space"));
     }
 
     private void checkRelaunches(List<String> recentlyKilled, com.northmendo.Appzuku.db.AppDatabase db) {
@@ -772,6 +897,7 @@ public class BackgroundAppManager {
         final List<String> packagesToLog = new ArrayList<>(packageNames);
         final Map<String, Long> recoveredToLog = new HashMap<>(recoveredKbByPackage);
         shellManager.runShellCommand(command, () -> {
+            removeAudioProtection(new HashSet<>(packagesToLog));
             executor.execute(() -> recordSuccessfulKills(packagesToLog, recoveredToLog));
             String message = "Free up " + formatMemorySize(finalTotalKb);
             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
@@ -817,6 +943,7 @@ public class BackgroundAppManager {
         }
         final long finalAppRamBytes = appRamBytes;
         shellManager.runShellCommand("am force-stop " + packageToKill, () -> {
+            removeAudioProtection(Collections.singleton(packageToKill));
             executor.execute(() -> recordSuccessfulKills(Collections.singletonList(packageToKill), recoveredKbByPackage));
             if (finalAppRamBytes > 0) {
                 String message = "Free up " + formatMemorySize(finalAppRamBytes);

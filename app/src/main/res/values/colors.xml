@@ -1,18 +1,21 @@
 <resources>
-    <color name="list_item_selected_color">#1A237E</color>
+    <color name="list_item_selected_color">#DCE7FA</color>
     <color name="list_item_default_color">#FFFFFF</color>
-    <color name="button_background_color">#EEEEEE</color>
-    <color name="button_ripple_color">#757575</color>
-    <color name="colorPrimary">#1A237E</color>
-    <color name="colorPrimaryDark">#000051</color>
-    <color name="colorAccent">#534BAE</color>
-    <color name="colorControlHighlight">#1A237E</color>
-    <color name="colorControlNormal">#1A237E</color>
-    <color name="background_main">#FFFFFF</color>
-    <color name="background_primary">#FFFFFF</color>
-    <color name="text_primary">#000000</color>
-    <color name="text_secondary">#666666</color>
-    <color name="divider_color">#DDDDDD</color>
-    <color name="toolbar_navy">#001F5C</color>
-    <color name="dialog_button_text">#1A237E</color>
+    <color name="button_background_color">#EEF2F8</color>
+    <color name="button_ripple_color">#667085</color>
+    <color name="colorPrimary">#315DA8</color>
+    <color name="colorPrimaryDark">#19345F</color>
+    <color name="colorAccent">#4F6FAD</color>
+    <color name="colorControlHighlight">#26315DA8</color>
+    <color name="colorControlNormal">#315DA8</color>
+    <color name="background_main">#F4F6FA</color>
+    <color name="background_primary">#F4F6FA</color>
+    <color name="surface_primary">#FFFFFF</color>
+    <color name="text_primary">#172033</color>
+    <color name="text_secondary">#657089</color>
+    <color name="divider_color">#E2E7F0</color>
+    <color name="toolbar_navy">#F4F6FA</color>
+    <color name="toolbar_content">#172033</color>
+    <color name="dialog_button_text">#315DA8</color>
+    <color name="status_positive">#21805A</color>
 </resources>
