@@ -63,6 +63,7 @@ public class HelpActivity extends BaseActivity {
                 "<h3>6. Kill Modes</h3>" +
                 "<p><b>Whitelist Mode (Default):</b> Kills all apps EXCEPT those you whitelist.</p>" +
                 "<p><b>Blacklist Mode:</b> Kills ONLY the apps you select in the Blacklist.</p>" +
+                "<p>Automated cleanup never runs while music is playing. It also protects games, gaming tools, the current foreground app, and the most recently used app. These protections apply regardless of RAM or temperature. Manual kills remain available from the app list.</p>" +
 
                 "<h3>7. Kill History</h3>" +
                 "<p>View statistics on which apps were killed and how often they relaunch. Apps that frequently restart ('greedy apps') can be added to Background Restriction so Android keeps them asleep as aggressively as possible.</p>"

@@ -107,6 +107,8 @@ public class ShappkyQuickTile extends TileService {
                 final String killedPackage = packageName;
                 String cmd = "am force-stop " + killedPackage;
                 shellManager.runShellCommand(cmd, () -> {
+                    BackgroundAppManager.clearAudioProtection(this,
+                            java.util.Collections.singleton(killedPackage));
                     logKilledPackage(killedPackage);
                     handler.post(() -> {
                         Toast.makeText(this, "Killed: " + killedPackage, Toast.LENGTH_SHORT).show();

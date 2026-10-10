@@ -24,6 +24,9 @@ public final class PreferenceKeys {
     public static final String KEY_PERIODIC_KILL_ENABLED = "periodicKillEnabled";
     public static final String KEY_KILL_INTERVAL = "killInterval";
     public static final String KEY_KILL_ON_SCREEN_OFF = "killOnScreenOff";
+    public static final String KEY_LAST_FOREGROUND_APP = "last_foreground_app";
+    public static final String KEY_PREVIOUS_FOREGROUND_APP = "previous_foreground_app";
+    public static final String KEY_AUDIO_PROTECTED_APPS = "audio_protected_apps";
 
     // RAM Threshold
     public static final String KEY_RAM_THRESHOLD = "ramThreshold";

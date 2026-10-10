@@ -13,16 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:minHeight="64dp"
+            android:layout_height="56dp"
+            android:minHeight="56dp"
             android:background="@color/toolbar_navy"
-            android:elevation="4dp"
-            app:titleTextColor="@android:color/white"
+            app:titleTextColor="@color/toolbar_content"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -36,33 +36,49 @@
             android:id="@+id/running_apps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_main"
-            android:padding="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/surface_rounded"
+            android:paddingStart="18dp"
+            android:paddingTop="18dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="10dp"
             android:textColor="@color/text_primary"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/linear1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_main"
-            android:orientation="horizontal">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/surface_rounded"
+            android:orientation="vertical"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="14dp">
 
             <TextView
                 android:id="@+id/ram_usage_text"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal|center_vertical"
-                android:paddingLeft="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_vertical"
                 android:textColor="@color/text_primary"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <ProgressBar
                 android:id="@+id/ram_usage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="8dp"
                 android:indeterminate="false"
+                android:progressTint="@color/colorPrimary"
+                android:progressBackgroundTint="@color/divider_color"
+                android:progressDrawable="@drawable/ram_progress"
                 style="?android:progressBarStyleHorizontal" />
         </LinearLayout>
 
@@ -76,6 +92,10 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="96dp"
                 android:scrollbars="vertical" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
@@ -86,8 +106,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_gravity="right|bottom"
-        app:backgroundTint="#0136FF"
+        app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_force_stop"
-        app:tint="@android:color/white" />
+        app:tint="@color/surface_primary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

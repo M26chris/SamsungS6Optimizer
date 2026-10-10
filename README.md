@@ -34,7 +34,7 @@ Appzuku is an Android application that stops background apps using either Shizuk
 - **Backup & Restore**: Save and restore your configured app lists.
 - **Search & Filter**: Quickly find apps in your running list by name or package ID.
 - **Theme Customization**: Support for Light, Dark, and System Default themes.
-- **Protected Apps**: System-critical apps and user-whitelisted apps are protected from being killed.
+- **Protected Apps**: Automated cleanup protects system-critical and whitelisted apps, games and game tools, the foreground and recently used apps. Cleanup pauses while music is playing and remembers the foreground/recent apps until you explicitly kill them; these protections are independent of the RAM threshold.
 - **RAM Monitoring**: Real-time display of system RAM usage.
 
 ## Screenshots

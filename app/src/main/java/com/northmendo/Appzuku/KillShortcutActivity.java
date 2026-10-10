@@ -44,6 +44,7 @@ public class KillShortcutActivity extends Activity {
                 final String pkg = targetPackage;
                 shellManager.runShellCommand("am force-stop " + pkg,
                         () -> {
+                            BackgroundAppManager.clearAudioProtection(this, java.util.Collections.singleton(pkg));
                             logKilledPackage(pkg);
                             Toast.makeText(getApplicationContext(), "Killed: " + pkg, Toast.LENGTH_SHORT).show();
                             finish();

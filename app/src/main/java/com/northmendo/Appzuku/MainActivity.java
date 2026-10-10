@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
@@ -85,7 +84,7 @@ public class MainActivity extends BaseActivity {
 
         // Setup toolbar with colors from resources
         setSupportActionBar(binding.toolbar);
-        binding.toolbar.setTitleTextColor(Color.WHITE);
+        binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.toolbar_content));
 
         // Initialize components
         shellManager = new ShellManager(this, handler, executor);
